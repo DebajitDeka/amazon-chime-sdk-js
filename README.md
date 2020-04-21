@@ -23,6 +23,7 @@ To get started, see the following resources:
 * [Amazon Chime SDK Developer Guide](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
 * [Amazon Chime SDK API Reference](http://docs.aws.amazon.com/chime/latest/APIReference/Welcome.html)
 * [Amazon Chime SDK for JavaScript Documentation](https://aws.github.io/amazon-chime-sdk-js)
+* [Amazon Chime SDK for JavaScript Supported browser](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html#mtg-browsers)
 
 And review the following guides:
 
@@ -109,6 +110,36 @@ const attendeeResponse = await chime.createAttendee({
 Now securely transfer the `meetingResponse` and `attendeeResponse` objects to your client application.
 These objects contain all the information needed for a client application using the Amazon Chime SDK for JavaScript to join the meeting.
 
+## Building and testing
+
+```
+npm run build
+npm run test
+```
+
+After running `npm run test` the first time, you can use `npm run test:fast` to
+speed up the test suite.
+
+To view code coverage results open `build/coverage/index.html` in your browser
+after running `npm run test`.
+
+## Generating the documentation
+
+To generate JavaScript API reference documentation run:
+
+```
+npm run build
+npm run doc
+```
+
+Then open `docs/index.html` in your browser.
+
+## Reporting a suspected vulnerability
+
+If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
+[vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/).
+Please do **not** create a public GitHub issue.
+
 ## Usage
 
 - [Device](#device)
@@ -124,7 +155,7 @@ These objects contain all the information needed for a client application using 
 
 > Note: Before starting a session, you need to choose your microphone, speaker, and camera.
 
-**Use case 1.** List audio input, audio output, and video input devices. The browser will ask for microphone and camera permissions.
+**Use case.** List audio input, audio output, and video input devices. The browser will ask for microphone and camera permissions.
 
 ```js
 const audioInputDevices = await meetingSession.audioVideo.listAudioInputDevices();
@@ -137,7 +168,7 @@ audioInputDevices.forEach(mediaDeviceInfo => {
 });
 ```
 
-**Use case 2.** Choose audio input and audio output devices by passing the `deviceId` of a `MediaDeviceInfo` object.
+**Use case.** Choose audio input and audio output devices by passing the `deviceId` of a `MediaDeviceInfo` object.
 
 ```js
 const audioInputDeviceInfo = /* An array item from meetingSession.audioVideo.listAudioInputDevices */;
@@ -147,7 +178,7 @@ const audioOutputDeviceInfo = /* An array item from meetingSession.audioVideo.li
 await meetingSession.audioVideo.chooseAudioOutputDevice(audioOutputDeviceInfo.deviceId);
 ```
 
-**Use case 3.** Choose a video input device by passing the `deviceId` of a `MediaDeviceInfo` object.
+**Use case.** Choose a video input device by passing the `deviceId` of a `MediaDeviceInfo` object.
 
 If there is an LED light next to the attendee's camera, it will be turned on indicating that it is now capturing from the camera.
 You probably want to choose a video input device when you start sharing your video.
@@ -161,7 +192,7 @@ await meetingSession.audioVideo.chooseVideoInputDevice(videoInputDeviceInfo.devi
 await meetingSession.audioVideo.chooseVideoInputDevice(null);
 ```
 
-**Use case 4.** Add a device change observer to receive the updated device list.
+**Use case.** Add a device change observer to receive the updated device list.
 For example, when you pair Bluetooth headsets with your computer, `audioInputsChanged` and `audioOutputsChanged` are called
 with the device list including headsets.
 
@@ -186,7 +217,7 @@ meetingSession.audioVideo.addDeviceChangeObserver(observer);
 
 ### Starting a session
 
-**Use case 5.** Start a session. To hear audio, you need to bind a device and stream to an `<audio>` element.
+**Use case.** Start a session. To hear audio, you need to bind a device and stream to an `<audio>` element.
 Once the session has started, you can talk and listen to attendees.
 Make sure you have chosen your microphone and speaker (See the "Device" section), and at least one other attendee has joined the session.
 
@@ -205,7 +236,7 @@ meetingSession.audioVideo.addObserver(observer);
 meetingSession.audioVideo.start();
 ```
 
-**Use case 6.** Add an observer to receive session lifecycle events: connecting, start, and stop.
+**Use case.** Add an observer to receive session lifecycle events: connecting, start, and stop.
 
 > Note: You can remove an observer by calling `meetingSession.audioVideo.removeObserver(observer)`.
 In a component-based architecture (such as React, Vue, and Angular), you may need to add an observer
@@ -236,7 +267,7 @@ meetingSession.audioVideo.addObserver(observer);
 > Note: So far, you've added observers to receive device and session lifecycle events.
 In the following use cases, you'll use the real-time API methods to send and receive volume indicators and control mute state.
 
-**Use case 7.** Mute and unmute an audio input.
+**Use case.** Mute and unmute an audio input.
 
 ```js
 // Mute
@@ -252,7 +283,7 @@ if (unmuted) {
 }
 ```
 
-**Use case 8.** To check whether the local microphone is muted, use this method rather than keeping track of your own mute state.
+**Use case.** To check whether the local microphone is muted, use this method rather than keeping track of your own mute state.
 
 ```js
 const muted = meetingSession.audioVideo.realtimeIsLocalAudioMuted();
@@ -263,7 +294,7 @@ if (muted) {
 }
 ```
 
-**Use case 9.** Disable unmute. If you want to prevent users from unmuting themselves (for example during a presentation), use these methods rather than keeping track of your own can-unmute state.
+**Use case.** Disable unmute. If you want to prevent users from unmuting themselves (for example during a presentation), use these methods rather than keeping track of your own can-unmute state.
 
 ```js
 meetingSession.audioVideo.realtimeSetCanUnmuteLocalAudio(false);
@@ -275,7 +306,7 @@ const unmuted = meetingSession.audioVideo.realtimeUnmuteLocalAudio();
 console.log(`${unmuted} is false. You cannot unmute yourself`)
 ```
 
-**Use case 10.** Subscribe to volume changes of a specific attendee. You can use this to build a real-time volume indicator UI.
+**Use case.** Subscribe to volume changes of a specific attendee. You can use this to build a real-time volume indicator UI.
 
 ```js
 import { DefaultModality } from 'amazon-chime-sdk-js';
@@ -304,7 +335,7 @@ meetingSession.audioVideo.realtimeSubscribeToVolumeIndicator(
 );
 ```
 
-**Use case 11.** Detect the most active speaker. For example, you can enlarge the active speaker's video element if available.
+**Use case.** Detect the most active speaker. For example, you can enlarge the active speaker's video element if available.
 
 ```js
 import { DefaultActiveSpeakerPolicy } from 'amazon-chime-sdk-js';
@@ -328,7 +359,7 @@ a video stream, etc. To view a video in your application, you must bind a tile t
 > - Make sure you bind a tile to the same video element until the tile is removed.
 > - A tile is created with a new tile ID when the same attendee restarts the video.
 
-**Use case 12.** Start sharing your video. The local video element is flipped horizontally (mirrored mode).
+**Use case.** Start sharing your video. The local video element is flipped horizontally (mirrored mode).
 
 ```js
 const videoElement = /* HTMLVideoElement object e.g. document.getElementById('video-element-id') */;
@@ -357,7 +388,7 @@ meetingSession.audioVideo.addObserver(observer);
 meetingSession.audioVideo.startLocalVideoTile();
 ```
 
-**Use case 13.** Stop sharing your video.
+**Use case.** Stop sharing your video.
 
 ```js
 const videoElement = /* HTMLVideoElement object e.g. document.getElementById('video-element-id') */;
@@ -391,7 +422,7 @@ meetingSession.audioVideo.stopLocalVideoTile();
 meetingSession.audioVideo.removeLocalVideoTile();
 ```
 
-**Use case 14.** View one attendee video, e.g. in a 1-on-1 session.
+**Use case.** View one attendee video, e.g. in a 1-on-1 session.
 
 ```js
 const videoElement = /* HTMLVideoElement object e.g. document.getElementById('video-element-id') */;
@@ -411,7 +442,7 @@ const observer = {
 meetingSession.audioVideo.addObserver(observer);
 ```
 
-**Use case 15.** View up to 16 attendee videos. Assume that you have 16 video elements in your application,
+**Use case.** View up to 16 attendee videos. Assume that you have 16 video elements in your application,
 and that an empty cell means it's taken.
 
 ```js
@@ -490,7 +521,7 @@ the content attendee (attendee-id#content) joins the session and shares content 
 > For example, your attendee ID is "my-id". When you call `meetingSession.audioVideo.startContentShare`,
 the content attendee "my-id#content" will join the session and share your content.
 
-**Use case 16.** Start sharing your screen.
+**Use case.** Start sharing your screen.
 
 ```js
 import { DefaultModality } from 'amazon-chime-sdk-js';
@@ -531,7 +562,7 @@ meetingSession.audioVideo.addObserver(observer);
 await meetingSession.audioVideo.startContentShareFromScreenCapture();
 ```
 
-**Use case 17.** Start sharing your screen in an environment that does not support a screen picker dialog. e.g. Electron
+**Use case.** Start sharing your screen in an environment that does not support a screen picker dialog. e.g. Electron
 
 ```js
 const sourceId = /* Window or screen ID e.g. the ID of a DesktopCapturerSource object in Electron */;
@@ -539,7 +570,7 @@ const sourceId = /* Window or screen ID e.g. the ID of a DesktopCapturerSource o
 await meetingSession.audioVideo.startContentShareFromScreenCapture(sourceId);
 ```
 
-**Use case 18.** Start streaming your video file from an `<input>` element of type `file`.
+**Use case.** Start streaming your video file from an `<input>` element of type `file`.
 
 ```js
 const videoElement = /* HTMLVideoElement object e.g. document.getElementById('video-element-id') */;
@@ -557,7 +588,7 @@ inputElement.addEventListener('change', async () => {
 });
 ```
 
-**Use case 19.** Stop sharing your screen or content.
+**Use case.** Stop sharing your screen or content.
 
 ```js
 const observer = {
@@ -571,7 +602,7 @@ meetingSession.audioVideo.addContentShareObserver(observer);
 await meetingSession.audioVideo.stopContentShare();
 ```
 
-**Use case 20.** View up to 2 attendee content or screens. Chime SDK allows 2 simultaneous content shares per meeting.
+**Use case.** View up to 2 attendee content or screens. Chime SDK allows 2 simultaneous content shares per meeting.
 
 ```js
 import { DefaultModality } from 'amazon-chime-sdk-js';
@@ -623,7 +654,7 @@ meetingSession.audioVideo.addObserver(observer);
 
 ### Attendees
 
-**Use case 21.** Subscribe to attendee presence changes. When an attendee joins or leaves a session,
+**Use case.** Subscribe to attendee presence changes. When an attendee joins or leaves a session,
 the callback receives `presentAttendeeId` and `present` (a boolean).
 
 ```js
@@ -640,7 +671,7 @@ const callback = (presentAttendeeId, present) => {
 meetingSession.audioVideo.realtimeSubscribeToAttendeeIdPresence(callback);
 ```
 
-**Use case 22.** Create a simple roster by subscribing to attendee presence and volume changes.
+**Use case.** Create a simple roster by subscribing to attendee presence and volume changes.
 
 ```js
 import { DefaultModality } from 'amazon-chime-sdk-js';
@@ -688,7 +719,7 @@ meetingSession.audioVideo.realtimeSubscribeToAttendeeIdPresence(
 
 ### Monitoring and alerts
 
-**Use case 23.** Add an observer to receive video metrics. See `AudioVideoObserver` for more available metrics,
+**Use case.** Add an observer to receive video metrics. See `AudioVideoObserver` for more available metrics,
 such as WebRTC statistics processed by Chime SDK.
 
 ```js
@@ -707,7 +738,7 @@ const observer = {
 meetingSession.audioVideo.addObserver(observer);
 ```
 
-**Use case 24.** Add an observer to receive alerts. You can use these alerts to notify users of connection problems.
+**Use case.** Add an observer to receive alerts. You can use these alerts to notify users of connection problems.
 
 ```js
 const observer = {
@@ -738,7 +769,7 @@ meetingSession.audioVideo.addObserver(observer);
 
 ### Stopping a session
 
-**Use case 25.** Leave a session.
+**Use case.** Leave a session.
 
 ```js
 import { MeetingSessionStatusCode } from 'amazon-chime-sdk-js';
@@ -763,7 +794,7 @@ meetingSession.audioVideo.addObserver(observer);
 meetingSession.audioVideo.stop();
 ```
 
-**Use case 26.** Add an observer to get notified when a session has ended.
+**Use case.** Add an observer to get notified when a session has ended.
 
 ```js
 import { MeetingSessionStatusCode } from 'amazon-chime-sdk-js';
@@ -789,35 +820,5 @@ const observer = {
 
 meetingSession.audioVideo.addObserver(observer);
 ```
-
-## Building and testing
-
-```
-npm run build
-npm run test
-```
-
-After running `npm run test` the first time, you can use `npm run test:fast` to
-speed up the test suite.
-
-To view code coverage results open `build/coverage/index.html` in your browser
-after running `npm run test`.
-
-## Generating the documentation
-
-To generate JavaScript API reference documentation run:
-
-```
-npm run build
-npm run doc
-```
-
-Then open `docs/index.html` in your browser.
-
-## Reporting a suspected vulnerability
-
-If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
-[vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/).
-Please do **not** create a public GitHub issue.
 
 Copyright 2019-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.

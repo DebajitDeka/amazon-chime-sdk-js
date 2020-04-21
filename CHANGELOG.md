@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Use getByteTimeDomainData to support iOS Safari in meeting demo
+- Update README to remove use case numbering and incorporate documentation feedback
 
 ### Removed
 
